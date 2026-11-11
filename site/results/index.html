@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measured results · ReSellit Lister</title>
+<meta name="description" content="What was measured and how, and what was not measured.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="/"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M8 3h21a2 2 0 0 1 2 2v24a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" fill="#1c1b19"/><circle cx="9" cy="9" r="2.4" fill="#f4f1ea"/><path d="M12 25V12h5.2c2.6 0 4.3 1.5 4.3 3.8 0 1.7-.9 2.9-2.4 3.4l3 5.8h-3.2l-2.6-5.3H15V25zm3-7.6h2c1 0 1.6-.6 1.6-1.5S18 14.4 17 14.4h-2z" fill="#f4f1ea"/><circle cx="27" cy="27" r="5" fill="#c2410c"/></svg><span>ReSellit Lister<small>Phase 1 · Poshmark</small></span></a>
+<nav class="nav" aria-label="Main"><a href="/">Demo</a><a href="/app/">Real extension</a><a href="/how-it-works/">How it works</a><a href="/results/" aria-current="page">Measured</a></nav>
+<span class="demo-flag">Demo · fictional data</span>
+</div></header>
+<main id="main">
+
+<section class="hero"><div class="wrap">
+  <p class="eyebrow">Measured</p>
+  <h1>What was run, and what it showed.</h1>
+  <p class="lede">Every number here comes from scripts in the repo: Chromium with the real extension loaded, the in-page demo, unit tests, Lighthouse and an accessibility scan. Run on 2026-11-11.</p>
+</div></section>
+<section class="sec"><div class="wrap">
+  <div class="tbl-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+    <thead><tr><th>Check</th><th>Result</th><th>How</th></tr></thead>
+    <tbody><tr><td>Real extension, end to end</td><td class="num">28/28 checks</td><td>Chromium with the unpacked Manifest V3 extension; a script plays the seller</td></tr><tr><td>Fields filled from the draft</td><td class="num">11/11</td><td>read back from the form’s own state, not just the screen</td></tr><tr><td>Photos</td><td class="num">8/8 in order · 16 of 20</td><td>file names checked one by one; 20-photo item capped at Poshmark’s 16</td></tr><tr><td>Send click → form ready for review</td><td class="num">0.41 s median</td><td>5 runs on the local test form (fill alone 0.24 s)</td></tr><tr><td>Listing link + ID captured</td><td class="num">yes (24-character ID)</td><td>listing page detected after the seller pressed List</td></tr><tr><td>Extension pressed Next or List</td><td class="num">never</td><td>listing count checked before the seller’s click; coded guard</td></tr><tr><td>Duplicate listings</td><td class="num">0 in 7 re-send attempts</td><td>send twice, send after listing, send after a closed tab</td></tr><tr><td>Tab closed before the link was captured</td><td class="num">found by SKU, linked</td><td>item marked Unconfirmed, then Check Poshmark</td></tr><tr><td>ReSellit tab closed while listing</td><td class="num">link delivered on return</td><td>outbox until ReSellit confirms the save</td></tr><tr><td>Simulated redesign (new IDs, new order)</td><td class="num">11/11 by labels</td><td>no test IDs available to the filler</td></tr><tr><td>Renamed price labels</td><td class="num">9/11 flagged → 11/11 after patch 1.0.1</td><td>adapter fixed with data, no rebuild</td></tr><tr><td>Naive paste (baseline)</td><td class="num">0/6 fields registered</td><td>why the filler types like a browser</td></tr><tr><td>ReSellit inventory fingerprint</td><td class="num">unchanged</td><td>qty, cost, bin and listing fields hashed before and after every scenario</td></tr><tr><td>Demo scenarios (this site)</td><td class="num">9/9</td><td>all six scenarios scripted in Chromium</td></tr><tr><td>Unit tests</td><td class="num">20/20</td><td>mapping, duplicate rules, link parser, adapter patches, eBay requests, audit</td></tr><tr><td>Accessibility and layout</td><td class="num">0 issues in 50 scans</td><td>axe WCAG 2.2 A/AA, overflow, 24 px targets, at 390/820/1440 px, both sites</td></tr><tr><td>Lighthouse (perf / a11y / best practices)</td><td class="num">100 / 100 / 100</td><td>median of 3, mobile LCP 0.76 s, CLS 0. SEO 60: noindex on purpose</td></tr></tbody>
+  </table></div>
+</div></section>
+<section class="sec"><div class="wrap two">
+  <div><h2>Not measured</h2><ul class="list-check list-x">
+    <li>The live Poshmark form. No account was used and nothing was listed; field labels get checked on your account in week 1.</li>
+    <li>Poshmark’s response to repeated automated fills on one account. Every publish in this design is a manual click.</li>
+    <li>Your ReSellit app and your existing extension: not seen yet. The audit script and connector are ready for them.</li>
+    <li>Edge and Brave (both Chromium). Only Chromium/Chrome was run.</li>
+    <li>Photos larger than 2 MB each. The test photos are 15–40 KB.</li>
+  </ul></div>
+  <div><h2>Reproduce</h2><div class="receipt"><h3>terminal</h3><ol tabindex="0" aria-label="Commands">
+    <li><time>1</time><span>npm install</span></li>
+    <li><time>2</time><span>npm run build</span></li>
+    <li><time>3</time><span>npm test</span></li>
+    <li><time>4</time><span>npm run e2e</span></li>
+    <li><time>5</time><span>npm run measure</span></li>
+  </ol></div></div>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">
+<p>ReSellit Lister · Phase 1 demo: ReSellit draft → Poshmark listing form → link back to ReSellit.</p>
+<p>Fictional products and brands. Marketplace forms here are test doubles, not the real sites.</p>
+</div></footer>
+
+</body>
+</html>
