@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReSellit → Poshmark · Phase 1 demo</title>
+<meta name="description" content="Send a ReSellit draft to the Poshmark listing form, review and list it yourself, and get the link back in ReSellit. No duplicates.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+
+</head>
+<body class="wide">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="/"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M8 3h21a2 2 0 0 1 2 2v24a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" fill="#1c1b19"/><circle cx="9" cy="9" r="2.4" fill="#f4f1ea"/><path d="M12 25V12h5.2c2.6 0 4.3 1.5 4.3 3.8 0 1.7-.9 2.9-2.4 3.4l3 5.8h-3.2l-2.6-5.3H15V25zm3-7.6h2c1 0 1.6-.6 1.6-1.5S18 14.4 17 14.4h-2z" fill="#f4f1ea"/><circle cx="27" cy="27" r="5" fill="#c2410c"/></svg><span>ReSellit Lister<small>Phase 1 · Poshmark</small></span></a>
+<nav class="nav" aria-label="Main"><a href="/" aria-current="page">Demo</a><a href="/app/">Real extension</a><a href="/how-it-works/">How it works</a><a href="/results/">Measured</a></nav>
+<span class="demo-flag">Demo · fictional data</span>
+</div></header>
+<main id="main">
+
+<section class="hero"><div class="wrap grid2">
+  <div>
+    <p class="eyebrow">Phase 1 · Poshmark · working build</p>
+    <h1>ReSellit draft in. Poshmark listing out. You press List.</h1>
+    <p class="lede">The extension opens Poshmark’s own listing form, attaches the photos in your order and fills the details from the draft. You review the form and list it yourself. ReSellit then records the listing link, and sending the same item twice cannot create a second listing.</p>
+    <div class="btns"><a class="btn hot" href="#demo">Run the demo</a><a class="btn alt" href="/app/">Try the real extension</a></div>
+  </div>
+  <div class="facts" aria-label="Measured in a real Chrome with the extension loaded">
+    <div class="fact"><b>11/11</b><span>fields filled per listing</span></div>
+    <div class="fact"><b>8/8</b><span>photos attached, in order</span></div>
+    <div class="fact"><b>0</b><span>duplicate listings created</span></div>
+    <div class="fact"><b>0.41 s</b><span>from Send to a filled form (median)</span></div>
+  </div>
+</div></section>
+
+<section class="sec" id="demo"><div class="wrap">
+  <h2>Six scenarios, running the extension’s own code</h2>
+  <p class="muted" style="max-width:75ch">This page runs the same modules the Chrome extension uses (transfer rules, field mapping, form filler, link capture). The form on the right is a <b>test double</b> that mirrors Poshmark’s listing fields; nothing here touches Poshmark. Products and brands are fictional.</p>
+  <div class="scenarios" role="group" aria-label="Scenarios">
+    <button class="scn" type="button" data-scn="happy" aria-pressed="false"><i>1</i><b>Send and list</b><span>8 photos, 11 fields, link back</span></button>
+    <button class="scn" type="button" data-scn="twice" aria-pressed="false"><i>2</i><b>Send it twice</b><span>No second form, no second listing</span></button>
+    <button class="scn" type="button" data-scn="closed" aria-pressed="false"><i>3</i><b>Tab closes mid-publish</b><span>Found again by SKU</span></button>
+    <button class="scn" type="button" data-scn="redesign" aria-pressed="false"><i>4</i><b>Poshmark redesigns</b><span>New IDs and field order</span></button>
+    <button class="scn" type="button" data-scn="renamed" aria-pressed="false"><i>5</i><b>A field is renamed</b><span>Flagged, then fixed by a data patch</span></button>
+    <button class="scn" type="button" data-scn="photos" aria-pressed="false"><i>6</i><b>20 photos, long title</b><span>Poshmark’s limits applied, shown first</span></button>
+  </div>
+  <div class="guide" role="status"><p id="guide-text"></p><div class="btns"><span id="guide-extra"></span><button type="button" class="btn sm alt" id="sim-reset">Restart</button></div></div>
+  <div class="workspace">
+    <div id="sim-app" aria-label="ReSellit stand-in"></div>
+    <div id="sim-browser" aria-label="Simulated browser"></div>
+  </div>
+  <div class="under">
+    <div class="receipt"><h3>Transfer log</h3><ol id="sim-log" tabindex="0" aria-label="Log entries"><li class="empty">Nothing sent yet.</li></ol></div>
+    <div><h3>Field report</h3><div id="sim-report"><p class="small muted">The field-by-field report appears after a fill.</p></div></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>Four decisions behind it</h2>
+  <div class="cards">
+    <div class="card"><h3>Poshmark’s web form, because there is no public listing API</h3><p>Poshmark publishes no developer API for ordinary sellers. Its CSV Bulk Upload is limited to Posh Ambassadors and Brand Partners. So the extension works inside your signed-in Chrome, on Poshmark’s own form.</p></div>
+    <div class="card"><h3>You press List</h3><p>The extension fills but is coded never to press <b>Next</b> or <b>List</b>, and a test checks it. Every listing goes live by your click after you review it. Nothing browses, scrapes or posts in the background.</p></div>
+    <div class="card"><h3>The SKU is the anchor</h3><p>ReSellit’s ID goes into Poshmark’s seller-only SKU field. If a tab closes before the link is captured, ReSellit looks the item up by SKU before it lets you send again.</p></div>
+    <div class="card"><h3>When Poshmark changes, one data file changes</h3><p>Fields are found by label as well as by selector. A health check runs before every fill and reports anything it can’t find. The fix is a small data patch that ships from ReSellit, with no reinstall.</p></div>
+  </div>
+  <p style="margin-top:18px"><a href="/how-it-works/">Field map, limits and maintenance plan →</a></p>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">
+<p>ReSellit Lister · Phase 1 demo: ReSellit draft → Poshmark listing form → link back to ReSellit.</p>
+<p>Fictional products and brands. Marketplace forms here are test doubles, not the real sites.</p>
+</div></footer>
+<script type="module" src="/js/home.js"></script>
+</body>
+</html>

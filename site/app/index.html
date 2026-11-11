@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real extension · ReSellit Lister</title>
+<meta name="description" content="Run the demo with the actual Chrome extension installed.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+<meta name="resellit-lister" content="1">
+<script src="/js/resellit-lister.js"></script>
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="/"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M8 3h21a2 2 0 0 1 2 2v24a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" fill="#1c1b19"/><circle cx="9" cy="9" r="2.4" fill="#f4f1ea"/><path d="M12 25V12h5.2c2.6 0 4.3 1.5 4.3 3.8 0 1.7-.9 2.9-2.4 3.4l3 5.8h-3.2l-2.6-5.3H15V25zm3-7.6h2c1 0 1.6-.6 1.6-1.5S18 14.4 17 14.4h-2z" fill="#f4f1ea"/><circle cx="27" cy="27" r="5" fill="#c2410c"/></svg><span>ReSellit Lister<small>Phase 1 · Poshmark</small></span></a>
+<nav class="nav" aria-label="Main"><a href="/">Demo</a><a href="/app/" aria-current="page">Real extension</a><a href="/how-it-works/">How it works</a><a href="/results/">Measured</a></nav>
+<span class="demo-flag">Demo · fictional data</span>
+</div></header>
+<main id="main">
+
+<section class="hero"><div class="wrap">
+  <p class="eyebrow">Real extension · Chrome</p>
+  <h1>Run it with the actual Chrome extension.</h1>
+  <p class="lede">Same ReSellit stand-in as the demo. Here, though, <b>Send</b> opens a real Chrome tab: the extension’s background worker, content script and status panel do the work, and the link comes back through the same connector your ReSellit app would use.</p>
+</div></section>
+<section class="sec"><div class="wrap two">
+  <div>
+    <h2>Install in two minutes</h2>
+    <ol class="steps">
+      <li>Download <a href="/downloads/resellit-lister-extension.zip" download>resellit-lister-extension.zip</a> and unzip it.</li>
+      <li>Open <code>chrome://extensions</code> and switch on <b>Developer mode</b> (top right).</li>
+      <li>Click <b>Load unpacked</b> and choose the unzipped folder.</li>
+      <li>Reload this page.</li>
+    </ol>
+    <p class="small muted" style="margin-top:12px">Permissions: <code>storage</code>, plus access to poshmark.com, localhost (your ReSellit) and *.vercel.app (this demo). No history, no tabs list, no background browsing.</p>
+  </div>
+  <div>
+    <div id="ext-status" class="callout" role="status">Looking for the extension…</div>
+    <div class="card" style="margin-top:14px">
+      <label for="variant"><b>Test form version</b></label>
+      <select id="variant" style="display:block;width:100%;margin:6px 0 12px;font:inherit;padding:10px;border-radius:9px;border:1px solid var(--line2)">
+        <option value="a">Current form</option>
+        <option value="b">Simulated redesign (new IDs, new order)</option>
+        <option value="c">Renamed price labels</option>
+      </select>
+      <button type="button" class="btn sm alt" id="ext-reset">Reset demo data</button>
+      <p class="small muted" style="margin:10px 0 0">Integrating with your ReSellit app takes one script and two calls: <a href="/downloads/resellit-lister.js">resellit-lister.js</a>.</p>
+    </div>
+  </div>
+</div>
+<div class="wrap" style="margin-top:22px"><div id="ext-app"></div></div>
+</section>
+</main>
+<footer class="foot"><div class="wrap">
+<p>ReSellit Lister · Phase 1 demo: ReSellit draft → Poshmark listing form → link back to ReSellit.</p>
+<p>Fictional products and brands. Marketplace forms here are test doubles, not the real sites.</p>
+</div></footer>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>

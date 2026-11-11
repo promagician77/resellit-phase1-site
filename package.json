@@ -1,0 +1,10 @@
+{
+  "name": "resellit-lister-demo-phase1",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ReSellit Lister demo: Phase 1 \u00b7 Poshmark. Prebuilt static site in site/.",
+  "scripts": {
+    "build": "node init && echo 'prebuilt: site/ is committed'",
+    "start": "node init && npx --yes serve site"
+  }
+}

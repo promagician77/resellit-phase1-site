@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works · ReSellit Lister</title>
+<meta name="description" content="Field map, photo transfer, duplicate rules, Poshmark limits and maintenance plan.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/instrument.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css">
+
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="/"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M8 3h21a2 2 0 0 1 2 2v24a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z" fill="#1c1b19"/><circle cx="9" cy="9" r="2.4" fill="#f4f1ea"/><path d="M12 25V12h5.2c2.6 0 4.3 1.5 4.3 3.8 0 1.7-.9 2.9-2.4 3.4l3 5.8h-3.2l-2.6-5.3H15V25zm3-7.6h2c1 0 1.6-.6 1.6-1.5S18 14.4 17 14.4h-2z" fill="#f4f1ea"/><circle cx="27" cy="27" r="5" fill="#c2410c"/></svg><span>ReSellit Lister<small>Phase 1 · Poshmark</small></span></a>
+<nav class="nav" aria-label="Main"><a href="/">Demo</a><a href="/app/">Real extension</a><a href="/how-it-works/" aria-current="page">How it works</a><a href="/results/">Measured</a></nav>
+<span class="demo-flag">Demo · fictional data</span>
+</div></header>
+<main id="main">
+
+<section class="hero"><div class="wrap">
+  <p class="eyebrow">How it works</p>
+  <h1>From draft to listing link, step by step.</h1>
+  <p class="lede">The parts, what each one is responsible for, Poshmark’s real limits, and what happens when Poshmark changes its site.</p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>The flow</h2>
+  <svg class="flow" viewBox="0 0 1200 330" role="img" aria-labelledby="flow-t flow-d">
+    <title id="flow-t">Transfer flow</title>
+    <desc id="flow-d">ReSellit sends a draft through the connector to the extension's background worker, which opens the Poshmark form; the content script fills it; the seller presses List; the listing page is detected and the link goes back to ReSellit through an outbox.</desc>
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1c1b19"/></marker></defs>
+    <g font-family="Instrument, Arial, sans-serif" font-size="15" fill="#1c1b19">
+      <rect x="20" y="40" width="200" height="96" rx="12" fill="#fffdf8" stroke="#c9bfab"/><text x="40" y="72" font-weight="700">ReSellit (your app)</text><text x="40" y="96">Draft + Send button</text><text x="40" y="118">connector, 2 calls</text>
+      <rect x="290" y="40" width="230" height="96" rx="12" fill="#1c1b19"/><text x="310" y="72" font-weight="700" fill="#f4f1ea">Extension · background</text><text x="310" y="96" fill="#f4f1ea">duplicate rules, records</text><text x="310" y="118" fill="#f4f1ea">photos, outbox</text>
+      <rect x="590" y="40" width="250" height="96" rx="12" fill="#fffdf8" stroke="#c9bfab"/><text x="610" y="72" font-weight="700">Poshmark form (your login)</text><text x="610" y="96">content script fills it</text><text x="610" y="118">status panel, field report</text>
+      <rect x="910" y="40" width="270" height="96" rx="12" fill="#fde9dc" stroke="#c2410c"/><text x="930" y="72" font-weight="700">You review and press List</text><text x="930" y="96">the extension never does</text><text x="930" y="118">(coded guard + test)</text>
+      <rect x="910" y="200" width="270" height="96" rx="12" fill="#fffdf8" stroke="#c9bfab"/><text x="930" y="232" font-weight="700">Listing page opens</text><text x="930" y="256">poshmark.com/listing/…-{id}</text><text x="930" y="278">link + 24-character ID read</text>
+      <rect x="290" y="200" width="550" height="96" rx="12" fill="#dcfce7" stroke="#166534"/><text x="310" y="232" font-weight="700">Back to ReSellit</text><text x="310" y="256">state, link and listing ID saved next to the item; inventory untouched</text><text x="310" y="278">kept in an outbox until ReSellit confirms the save</text>
+    </g>
+    <g stroke="#1c1b19" stroke-width="2" fill="none" marker-end="url(#ar)"><path d="M220 88h64"/><path d="M520 88h64"/><path d="M840 88h64"/><path d="M1045 136v58"/><path d="M910 248h-64"/><path d="M290 248H120V142"/></g>
+  </svg>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>What goes where</h2>
+  <div class="tbl-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+    <thead><tr><th>ReSellit</th><th>Poshmark field</th><th>Rule</th><th>Source</th></tr></thead>
+    <tbody><tr><td>Photos (in ReSellit order)</td><td>Photos</td><td>Up to 16; the first is the cover. Attached as real files, not links. Extras are listed before you send.</td><td class="src">Nifty and Spadeberry seller guides: up to 16 photos</td></tr><tr><td>Title</td><td>Title</td><td>80 characters max. Longer titles are cut at a word break and flagged before you send.</td><td class="src">Poshmark Support, Bulk Upload Templates: Title 80 character limit</td></tr><tr><td>Description</td><td>Description</td><td>1,500 characters max, plain text.</td><td class="src">Poshmark Support, Bulk Upload Templates: Description 1500 character limit</td></tr><tr><td>Category path</td><td>Category</td><td>Picked from Poshmark’s own list (department › category).</td><td class="src">Poshmark Bulk Upload template: Department, Category, Size columns</td></tr><tr><td>Size</td><td>Size</td><td>Picked after the category, from the sizes Poshmark offers for it.</td><td class="src">Poshmark Bulk Upload template</td></tr><tr><td>Brand</td><td>Brand</td><td>Typed, then Poshmark’s matching suggestion chosen. With no match the typed brand stays and is flagged.</td><td class="src">Closo Poshmark playbook: brand, size, color, original price and category feed filters</td></tr><tr><td>Condition</td><td>New With Tags</td><td>Switched on only when ReSellit says “new with tags”.</td><td class="src">Poshmark Bulk Upload template: Condition NWT</td></tr><tr><td>Colors</td><td>Color</td><td>Picked from Poshmark’s color list (count confirmed on your account in week 1).</td><td class="src">Closo Poshmark playbook</td></tr><tr><td>Original price</td><td>Original Price</td><td>Whole dollars.</td><td class="src">Poshmark Support, Bulk Upload Templates: round pricing to whole amounts</td></tr><tr><td>Price</td><td>Listing Price</td><td>Whole dollars: cents are rounded up and flagged ($54.50 → $55).</td><td class="src">Poshmark Support, Bulk Upload Templates: round pricing to whole amounts</td></tr><tr><td>ReSellit ID</td><td>SKU (seller only)</td><td>The anchor for duplicate checks and for finding a listing whose link was lost.</td><td class="src">Poshmark Bulk Upload template: SKU identifies a listing</td></tr><tr><td>Bin location</td><td>Other Info (seller only)</td><td>Private note, 500 characters max.</td><td class="src">Poshmark Support: Other Info 500 characters, visible only to you</td></tr><tr><td>Quantity, cost, bin, status</td><td>not sent</td><td>ReSellit-owned inventory. Never changed by a transfer: the demo shows a fingerprint before and after.</td><td class="src"></td></tr></tbody>
+  </table></div>
+  <div class="two" style="margin-top:24px">
+    <div class="card"><h3>How photos get there</h3><p>The background worker reads each photo from ReSellit (your local app, so nothing goes to a third-party server). The content script turns the photos into files and puts them into Poshmark’s photo picker, exactly as if you had chosen them from disk. Order is kept, and the first photo becomes the cover.</p></div>
+    <div class="card"><h3>Why values “stick”</h3><p>Modern forms ignore values that a script just pastes in. The filler types the way a browser does (native value setter plus input and change events), and picks list options by clicking them. In our tests a naive paste registered <b>0/6</b> fields; the filler registered <b>11/11</b>.</p></div>
+  </div>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>No duplicates: the rules</h2>
+  <p class="muted" style="max-width:75ch">One record per item and marketplace, kept by the extension’s background worker. It makes one decision at a time, so two ReSellit tabs can’t both open a form.</p>
+  <div class="tbl-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+    <thead><tr><th>State</th><th>When you press Send</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip none">Not listed</span></td><td>Opens the Poshmark form and fills it.</td></tr>
+      <tr><td><span class="chip run">Filling</span> <span class="chip warn">Waiting for you</span></td><td>Switches to the tab that’s already open. No second form.</td></tr>
+      <tr><td><span class="chip ok">Listed</span></td><td>Blocked. Shows the existing link.</td></tr>
+      <tr><td><span class="chip bad">Unconfirmed</span></td><td>The tab closed before the link was captured, so the item may be live. ReSellit checks your Poshmark listings for the SKU (or you paste the link) before anything else.</td></tr>
+      <tr><td><span class="chip none">Not listed (checked)</span></td><td>The check found nothing, so sending again is safe.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted" style="margin-top:10px">Editing a listed item is an update, not a new listing. A fingerprint of what was sent lets ReSellit tell “sent twice” from “changed after listing”. Pushing edits to a live listing is a later phase.</p>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <h2>API and browser limits, plainly</h2>
+  <ul class="list-check" style="max-width:85ch">
+    <li><b>No public listing API.</b> Poshmark’s CSV Bulk Upload exists, but only for Posh Ambassadors and Brand Partners. A Poshmark job posting describes a developer API for its largest enterprise sellers, but it isn’t open to ordinary sellers.</li>
+    <li><b>Your browser does the work.</b> Listing happens in your signed-in Chrome on a desktop. Poshmark’s guide says you must have logged into its app recently to list on the web.</li>
+    <li><b>Your click publishes.</b> Poshmark’s terms bar automated crawling and querying. The extension acts only on the form you opened, and only when you send.</li>
+    <li><b>Listing caps.</b> Crosslisting tools report a cap of about 300 new listings per 24 hours, and a lower allowance for new accounts.</li>
+    <li><b>Sales aren’t pushed.</b> Poshmark doesn’t notify third-party tools of sales. Tracking sales (a later phase) means checking your sold items while the browser is open.</li>
+    <li><b>Not tested on live Poshmark.</b> No Poshmark account was used and no real listing was created. In week 1 the field labels are checked on your signed-in account with the health check, and nothing is published.</li>
+  </ul>
+</div></section>
+
+<section class="sec"><div class="wrap two">
+  <div>
+    <h2>When Poshmark changes its site</h2>
+    <ol class="steps">
+      <li><b>Found by meaning, not by position.</b> Each field has selectors, then its aria-label, its visible label and its placeholder. Scenario 4 shows the form surviving new IDs and a new field order.</li>
+      <li><b>Checked before every fill.</b> A health check reports any field it can’t find. The fill then stops short of “ready” and names the field, instead of guessing.</li>
+      <li><b>Fixed with data.</b> The Poshmark adapter is a small JSON file of labels and selectors, with no code in it. A patch is validated and shipped from ReSellit, with no new extension build and no Web Store review. Scenario 5 shows it.</li>
+      <li><b>Caught early.</b> A weekly scheduled check opens the create-listing page on a test account, runs the health check and never publishes. It alerts you before your next listing session.</li>
+    </ol>
+  </div>
+  <div>
+    <h2>Your extension: adapt or rebuild?</h2>
+    <p>The repo includes an audit script for your existing extension. It reads the manifest and code, runs nothing, and gives a verdict.</p>
+    <div class="receipt"><h3>node tools/audit-extension.mjs ./your-extension</h3><ol tabindex="0" aria-label="Audit findings">
+      <li class="bad"><time>block</time><span>Manifest V2. Chrome 139+ no longer runs Manifest V2 extensions.</span></li><li class="bad"><time>block</time><span>Persistent background page.</span></li><li class="warn"><time>gap</time><span>No &quot;storage&quot; permission: transfer records would not survive a worker restart.</span></li><li class="warn"><time>warn</time><span>Requests &lt;all_urls&gt;: broader than needed, and a harder Web Store review.</span></li><li class="bad"><time>block</time><span>Uses webRequestBlocking (not available in MV3 for regular extensions).</span></li><li class="warn"><time>gap</time><span>No content script on Poshmark pages.</span></li><li class="bad"><time>block</time><span>eval/new Function in: background.js.</span></li>
+    </ol></div>
+    <p class="small muted">Above: a legacy Manifest V2 fixture (verdict: <b>rebuild</b>). Chrome 139 and later no longer run Manifest V2 extensions, so an MV2 extension has to be migrated first. The extension built here audits as <b>adapt (ready)</b>.</p>
+  </div>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">
+<p>ReSellit Lister · Phase 1 demo: ReSellit draft → Poshmark listing form → link back to ReSellit.</p>
+<p>Fictional products and brands. Marketplace forms here are test doubles, not the real sites.</p>
+</div></footer>
+
+</body>
+</html>
